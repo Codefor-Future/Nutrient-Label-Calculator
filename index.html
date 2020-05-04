@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Nutrition</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<style>
+.selectWrapper {
+    
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    background:#FFFFFF url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2211%22%20height%3D%2211%22%20viewBox%3D%220%200%2011%2011%22%3E%3Cpath%20d%3D%22M4.33%208.5L0%201L8.66%201z%22%20fill%3D%22%2300AEA9%22%2F%3E%3C%2Fsvg%3E') right 13px center no-repeat;
+}
+
+.selectWrapper select {
+        padding: 12px 40px 12px 20px;
+        font-size: 18px;
+        line-height: 18px;
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        background-image: none;
+        -webkit-appearance: none;
+        outline: none;
+        cursor: pointer;
+        -moz-appearance: none;
+        text-indent: 0.01px;
+        text-overflow: ellipsis;
+    }
+html{
+  scroll-behavior: smooth;
+}
+
+
+</style>
+
+
+<div id="app">
+    <!-- Recipe Input and Button-->
+    <div v-if="show" id="recipeInput" class="p-4 m-auto text-left border" style="width:380px">
+      <h1>Nutrient Label Calculator</h1>
+      <textarea v-model="recipe" rows="10" style="background-color:#fcf8f7;" placeholder="Enter recipe like
+      apple
+      Orange
+      banana
+      " class="border-0 w-100 p-3"></textarea>
+      <label for="noOfServe">Select No of Servings</label>
+      <div class="selectWrapper ">
+      <select id="noOfServe" v-model="noServe">
+        <option value=1 selected>1</option>
+        <option value=2>2</option>
+        <option value=3>3</option>
+        <option value=4>4</option>
+        <option value=5>5</option>
+        <option value=6>6</option>
+        <option value=7>7</option>
+        <option value=8>8</option>
+        <option value=9>9</option>
+        <option value=10>10</option>
+      </select>
+      </div>
+    <!-- Recipe analyse button -->
+    <button v-on:click="getNutri(); show=!show" class="btn btn-dark border-0 mt-3">Analyse Recipe</button>
+    </div>
+    <!-- Recipe input field and button OVER -->
+    
+    <!-- Nutrition Label Start-->
+    <!--   Headings   -->
+      <div v-if="!show" id="nutritionLabel" class="p-4 m-auto text-left border" style="width:380px">
+    
+        <h2 class="text-primary">Nutrition Facts</h2>
+        <h6>Servings : {{this.noServe}}</h6>
+        <hr class="pt-3">
+        <h6>Amount per serving</h6>
+    <!-- Table -->
+        <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col"><h1>Calories</h1></th>
+          <th scope="col"><h1>{{this.nutrition.Energy}}</h1></th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><strong>Total Fat</strong> {{this.nutrition.TotalFat +"g"}}</td>
+        </tr>
+        <tr>
+          <td><strong>Cholesterol </strong> {{this.nutrition.Cholesterol +"g"}}</td>
+        </tr>
+        <tr>
+          <td><strong>Sodium </strong> {{this.nutrition.Sodium +"mg"}}</td>
+        </tr>
+        <tr>
+          <td><strong>Total Carbohydrate </strong> {{this.nutrition.Carbohydrate +"g"}}</td>
+        </tr>
+        <tr>
+          <td><strong>Protein </strong> {{this.nutrition.Protein +"g"}}</td>
+        </tr>
+        <br>
+        <tr>
+          <td><small>Calcium </small> {{this.nutrition.CalciumCa +"mg"}}</td>
+        </tr>
+        <tr>
+          <td><small>Vitamin C </small> {{this.nutrition.VitaminC+"mg"}}</td>
+        </tr>
+        <tr>
+          <td><small>Iron </small> {{this.nutrition.Iron+"mg"}}</td>
+        </tr>
+      </tbody>
+      </table>
+    <!-- button for clearing all stored values and to show Recipe Input field -->
+      <button v-on:click="clearAll(); show=!show" class="btn btn-dark border-0 mt-3">New Recipe</button>
+    
+        
+      </div>
+    
+    </div>
+
+<!-- Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js" integrity="sha256-bd8XIKzrtyJ1O5Sh3Xp3GiuMIzWC42ZekvrMMD4GxRg=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data(){
+    return{
+      nutrition:{
+        Energy:0,
+        Cholesterol:0,
+        CalciumCa:0,
+        TotalFat:0,
+        Sodium:0,
+        Carbohydrate:0,
+        Protein:0,
+        Iron:0,
+        Pottassium:0,
+        VitaminC:0,
+        
+      },
+      noServe:1,
+      recipe:"",
+      show:true
+    }
+  },
+  
+  methods:{
+    clearAll(){
+        this.nutrition.Energy=0
+        this.nutrition.Cholesterol=0
+        this.nutrition.CalciumCa=0
+        this.nutrition.TotalFat=0
+        this.nutrition.Sodium=0
+        this.nutrition.Carbohydrate=0
+        this.nutrition.Protein=0
+        this.nutrition.Iron=0
+    },
+    //function for separating the input Recipe into list of words separated by \n escape sequence and store it in array named arrayOfItems.
+    //Itrate through each element of array. Search for that item in the FoodData Central database using api and return the nutrition details of first search result. Store it.
+    //Itrate through properties of each Nutrient and find needed field and store needed data.
+    async getNutri(){
+      var noServe=parseInt(this.noServe)//Change the type of selected number of serving to integer and store in local variable noServe 
+      var arrayOfItems =""
+// differentiate and store the recipe items from value of textarea by \n as separator
+      arrayOfItems =this.recipe.split("\n")
+// loop through list of recipe items
+      for(var i in arrayOfItems){
+
+      
+    var a= arrayOfItems[i]
+    await axios.get(`https://api.nal.usda.gov/fdc/v1/foods/search?dataType=Branded&api_key=wZ1Pb65Z9edyuzNYEhzfP1hktg5jygbtZbqN4YJf&query=${a}`)
+    .then((response)=>{
+      
+      var totalNutri=response.data.foods[0].foodNutrients
+// Loop through the list of nutrients
+        for(var i in totalNutri){ 
+            switch(totalNutri[i].nutrientName){
+              case "Total lipid (fat)":{
+                this.nutrition.TotalFat+=(totalNutri[i].value*noServe)
+              }
+              break;
+              case "Protein":{
+                this.nutrition.Protein+=(totalNutri[i].value*noServe)
+              }
+              break;
+              case "Carbohydrate, by difference":{
+                this.nutrition.Carbohydrate+=(totalNutri[i].value*noServe)
+              }
+              break;
+              case "Energy":{
+                this.nutrition.Energy+=(totalNutri[i].value*noServe)
+              }
+              break;
+              case "Sodium, Na":{
+                this.nutrition.Sodium+=(totalNutri[i].value*noServe)
+              }
+              break;
+              case "Calcium, Ca":{
+                this.nutrition.CalciumCa+=(totalNutri[i].value*noServe)
+              }
+              break;
+              case "Vitamin C, total ascorbic acid":{
+                this.nutrition.VitaminC+=(totalNutri[i].value*noServe)
+              }
+              break;
+              case "Iron, Fe":{
+                this.nutrition.Iron+=(totalNutri[i].value*noServe)
+              }
+              break;
+            }
+
+        }
+
+    },(error)=>{
+      console.log(error);
+      
+    });
+  }
+  
+  
+  
+  }
+  
+}
+})
+    </script>
+    
+</body>
+</html>
