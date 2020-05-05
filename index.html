@@ -44,7 +44,7 @@ html{
 
 <div id="app">
     <!-- Recipe Input and Button-->
-    <div v-if="show" id="recipeInput" class="p-4 m-auto text-left border" style="width:380px">
+    <div v-if="show" id="recipeInput" class="p-4 mx-auto my-5 text-left border" style="width:380px">
       <h1>Nutrient Label Calculator</h1>
       <textarea v-model="recipe" rows="10" style="background-color:#fcf8f7;" placeholder="Enter recipe like
       apple
@@ -73,9 +73,9 @@ html{
     
     <!-- Nutrition Label Start-->
     <!--   Headings   -->
-      <div v-if="!show" id="nutritionLabel" class="p-4 m-auto text-left border" style="width:380px">
+      <div v-if="!show" id="nutritionLabel" class="p-4 mx-auto my-5 text-left border" style="width:380px">
     
-        <h2 class="text-primary">Nutrition Facts</h2>
+        <h1 class="">Nutrition Facts</h1>
         <h6>Servings : {{this.noServe}}</h6>
         <hr class="pt-3">
         <h6>Amount per serving</h6>
