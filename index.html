@@ -170,7 +170,7 @@ html{
       var noServe=parseInt(this.noServe)//Change the type of selected number of serving to integer and store in local variable noServe 
       var arrayOfItems =""
 // differentiate and store the recipe items from value of textarea by \n as separator
-      arrayOfItems =this.recipe.split(" ").join(",").split("\n")
+      arrayOfItems =this.recipe.split(" ").join("\n").split(" ")
 // loop through list of recipe items
       for(var i in arrayOfItems){
 
